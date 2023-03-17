@@ -67,13 +67,26 @@ public class FileUtils {
         String fullLocation = storage.concat(productItemDir);
         Set<String> filesExist = listFilesOfDirectory(fullLocation);
         List<String> need = fileNames.stream().map(fileName -> fileName.getUrl().substring(fileName.getUrl().lastIndexOf('/')+1)).collect(Collectors.toList());
-        need.forEach(name -> System.out.println(name));
         filesExist.forEach(file ->{
             if(!need.contains(file)){
                 File delFile = new File(fullLocation+"/"+file);
                 if(delFile.delete())
                     System.out.println("Delete successful!");
             }
+        });
+    }
+
+    public static void copyAllFileInDirectory(String source, String destination){
+        Set<String> files = listFilesOfDirectory(source);
+        files.forEach(file-> {
+            File f = new File(source+"/"+file);
+            try(InputStream input = new FileInputStream(f)){
+                Path path = Paths.get(destination, file);
+                Files.copy(input,path, StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e){
+                System.out.println(e);
+            }
+            f.delete();
         });
     }
 

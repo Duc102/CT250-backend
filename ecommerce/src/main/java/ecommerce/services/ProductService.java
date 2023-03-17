@@ -1,5 +1,6 @@
 package ecommerce.services;
 
+import ecommerce.Const.Disk;
 import ecommerce.models.*;
 import ecommerce.repository.ProductCategoryRepository;
 import ecommerce.repository.ProductItemRepository;
@@ -35,7 +36,17 @@ public class ProductService {
         product.setName(newProduct.getName());
         product.setProductCategory(category);
         Product pro = productRepository.save(product);
-        File dir = new File("D:/B1906657/NL/code/fullstack/frontend/ecommerce/public/Images/Products/"+pro.getId());
+        File dir = new File(Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId());
+        if(!dir.exists()) {
+            dir.mkdir();
+            File imgDir = new File(Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
+            imgDir.mkdir();
+            FileUtils.copyAllFileInDirectory(Disk.source+"/frontend/ecommerce/public/Images/Products/0/Images",
+                    Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
+        } else {
+            System.out.println("Product directory existed");
+        }
+        dir = new File(Disk.source+"/Store/Products/Descriptions/"+pro.getId());
         if(!dir.exists()) {
             dir.mkdir();
         } else {
