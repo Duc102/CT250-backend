@@ -1,0 +1,80 @@
+package ecommerce.uploadFile;
+
+import ecommerce.models.ProductImage;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+public class FileUtils {
+    public static String getExtension(String filename){
+        String[] f = filename.split("\\.");
+        String ext = f[f.length-1];
+        return ext;
+    }
+
+    public static Set<String> listFilesOfDirectory(String dir){
+        return Stream.of(new File(dir).listFiles())
+                .filter(file -> !file.isDirectory())
+                .map(File::getName)
+                .collect(Collectors.toSet());
+    }
+
+    public static String saveFile(String fileName, String storageLocation, MultipartFile multipartFile) throws IOException {
+        String directory = "D:/B1906657/NL/code/fullstack/frontend/ecommerce/public/Images" + storageLocation;
+        File file = new File(directory);
+        file.mkdir();
+        Path uploadDirectory = Paths.get(directory);
+        String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
+        fileName = fileName.concat(".").concat(extension);
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadDirectory.resolve(fileName); // result: /link.png
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e){
+            throw new IOException("Error saving upload file: " + fileName, e);
+        }
+        return "/Images" + storageLocation + "/" + fileName;
+    }
+
+    public static void saveJsonFile(String fileName, String storageLocation, String json) throws IOException {
+        String fullLocation = "D:/B1906657/NL/code/fullstack/Store" + storageLocation;
+        File file = new File(fullLocation + "/" + fileName);
+        file.createNewFile();
+        FileWriter writer = new FileWriter(fullLocation + "/" + fileName);
+        writer.write(json);
+        writer.close();
+    }
+
+
+    public static String readFile(String storageLocation) throws IOException {
+        String fullLocation = "D:/B1906657/NL/code/fullstack/Store" + storageLocation;
+        Path filePath = Paths.get(fullLocation);
+        String read = Files.readString(filePath);
+        return read;
+
+    }
+
+    public static void deleteProductItemImagesFileIfNotNeed(List<ProductImage> fileNames) {
+        String storage = "D:/B1906657/NL/code/fullstack/frontend/ecommerce/public";
+        String productItemDir = fileNames.get(0).getUrl().substring(0, fileNames.get(0).getUrl().lastIndexOf('/'));
+        String fullLocation = storage.concat(productItemDir);
+        Set<String> filesExist = listFilesOfDirectory(fullLocation);
+        List<String> need = fileNames.stream().map(fileName -> fileName.getUrl().substring(fileName.getUrl().lastIndexOf('/')+1)).collect(Collectors.toList());
+        need.forEach(name -> System.out.println(name));
+        filesExist.forEach(file ->{
+            if(!need.contains(file)){
+                File delFile = new File(fullLocation+"/"+file);
+                if(delFile.delete())
+                    System.out.println("Delete successful!");
+            }
+        });
+    }
+
+}
