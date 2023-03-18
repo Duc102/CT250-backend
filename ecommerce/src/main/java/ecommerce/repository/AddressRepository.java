@@ -1,12 +1,8 @@
 package ecommerce.repository;
 
 import ecommerce.models.Address;
-import ecommerce.models.SiteUser;
-import ecommerce.models.UserAddress;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
-import java.util.List;
 
 public interface AddressRepository extends JpaRepository<Address, Long> {
 //    @Query(value="select a.city as city from user_address ua join Address a on ua.address_id = a.id where ua.user_id =:userId", nativeQuery = true)

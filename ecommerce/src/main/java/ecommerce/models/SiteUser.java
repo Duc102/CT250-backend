@@ -17,23 +17,21 @@ import java.util.Set;
 @Setter
 public class SiteUser {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-    @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name="name")
+    private String name;
+
     @Column(name = "email_address")
     private String emailAddress;
+
     @Column(name ="phone_number")
     private String phoneNumber;
+
     @Column(name = "password")
     private String password;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
-//    @JoinTable(
-//            name = "user_address",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "address_id")
-//    )
-//    private Set<Address> addresses = new HashSet<>();
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.ALL)
     private Set<UserAddressAssociation> addresses;
 
@@ -47,8 +45,8 @@ public class SiteUser {
 
     public UserAddressAssociation addAddress(Address address, boolean isDefault){
         UserAddressAssociation association = new UserAddressAssociation();
-        association.setAddressId(address.getId());
-        association.setUserId(this.id);
+//        association.setAddressId(address.getId());
+//        association.setUserId(this.id);
         association.setAddress(address);
         association.setSiteUser(this);
         association.setDefault(isDefault);

@@ -15,7 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ProductItemRepositoryTest {
-    @Autowired ProductItemRepository productItemRepository;
+    @Autowired
+    ProductItemRepository productItemRepository;
     @Autowired
     private ProductCategoryRepository productCategoryRepository;
     @Autowired
@@ -32,14 +33,14 @@ class ProductItemRepositoryTest {
     }
 
     @Test
-    public void getProductByConfiguration(){
+    public void getProductByConfiguration() {
         List<ProductItem> productItems = productItemRepository.selectAllProductItemAndFetchConfig();
         productItems.stream().forEach(productItem -> System.out.println(productItem.getId()));
         List<Long> conditions = new ArrayList<>();
         conditions.add(26L);
         conditions.add(39L);
         List<ProductItem> result = new ArrayList<>();
-        for(int i = 0; i < productItems.size(); i++) {
+        for (int i = 0; i < productItems.size(); i++) {
             int count = 0;
             List<ProductConfiguration> pc = productItems.get(i).getProductConfigurations();
             for (int j = 0; j < pc.size() && count != -1; j++) {
@@ -53,13 +54,13 @@ class ProductItemRepositoryTest {
     }
 
     @Test
-    public void sortConfiguration(){
+    public void sortConfiguration() {
         List<ProductItem> productItems = productItemRepository.selectAllProductItems();
-        for(int i = 0; i < productItems.size(); i++) {
+        for (int i = 0; i < productItems.size(); i++) {
             List<ProductConfiguration> pc = productItems.get(i).getProductConfigurations();
 
-            Collections.sort(pc, (pc1, pc2)->pc1.getVariationOption().getVariation().getName().compareToIgnoreCase(pc2.getVariationOption().getVariation().getName()));
-            for(int j= 0; j<pc.size(); j++){
+            Collections.sort(pc, (pc1, pc2) -> pc1.getVariationOption().getVariation().getName().compareToIgnoreCase(pc2.getVariationOption().getVariation().getName()));
+            for (int j = 0; j < pc.size(); j++) {
                 System.out.println(pc.get(j).getVariationOption().getValue());
             }
             System.out.println();
@@ -70,7 +71,7 @@ class ProductItemRepositoryTest {
      * get all variation options and variations can have of a product.
      */
     @Test
-    public void findAllVarianceOfProductByProductId(){
+    public void findAllVarianceOfProductByProductId() {
         List<ProductItem> productItems = productItemRepository.selectAllProductItemsAndFetchConfigurationByProductId(6L);
         Map<Long, List<VariationOption>> varAndVarOp = new HashMap<>();
 
@@ -80,7 +81,7 @@ class ProductItemRepositoryTest {
                 Long key = varOp.getVariation().getId();
 
                 List<VariationOption> mapVarOps;
-                if(varAndVarOp.containsKey(key)){
+                if (varAndVarOp.containsKey(key)) {
                     mapVarOps = varAndVarOp.get(key);
 
                 } else {
@@ -92,29 +93,31 @@ class ProductItemRepositoryTest {
                     valuesExisted.add(v.getValue());
                 });
 
-                if(!valuesExisted.contains(varOp.getValue())){
+                if (!valuesExisted.contains(varOp.getValue())) {
                     mapVarOps.add(varOp);
                     varAndVarOp.put(key, mapVarOps);
                 }
             });
         }));
 
-        for(Long key: varAndVarOp.keySet()){
+        for (Long key : varAndVarOp.keySet()) {
             List<VariationOption> values = varAndVarOp.get(key);
             System.out.print("Key: " + key + ", Value: [");
-            values.forEach(value -> {System.out.print(" " +value.getValue());});
+            values.forEach(value -> {
+                System.out.print(" " + value.getValue());
+            });
             System.out.println("]");
         }
     }
 
     @Test
-    public void findVarianceOfProductCanHaveByProductIdAndConditions(){
+    public void findVarianceOfProductCanHaveByProductIdAndConditions() {
         List<Long> conditions = new ArrayList<>(Arrays.asList(48L));
         List<ProductItem> productItems = productItemRepository.selectAllProductItemsAndFetchConfigurationByProductId(5L);
         Map<Long, List<VariationOption>> varAndVarOp = new HashMap<>();
 
         List<ProductItem> result = new ArrayList<>();
-        for(int i = 0; i < productItems.size(); i++) {
+        for (int i = 0; i < productItems.size(); i++) {
             int count = 0; // Then number of conditions to be satisfied
             List<ProductConfiguration> pc = productItems.get(i).getProductConfigurations();
             for (int j = 0; j < pc.size() && count != -1; j++) {
@@ -123,7 +126,7 @@ class ProductItemRepositoryTest {
             }
             if (count == conditions.size()) {
 //              Sort configuration of a product item
-                Collections.sort(pc, (pc1, pc2)->pc1.getVariationOption().getVariation().getName().compareToIgnoreCase(pc2.getVariationOption().getVariation().getName()));
+                Collections.sort(pc, (pc1, pc2) -> pc1.getVariationOption().getVariation().getName().compareToIgnoreCase(pc2.getVariationOption().getVariation().getName()));
                 result.add(productItems.get(i));
             }
         }
@@ -134,7 +137,7 @@ class ProductItemRepositoryTest {
                 Long key = varOp.getVariation().getId();
 
                 List<VariationOption> mapVarOps;
-                if(varAndVarOp.containsKey(key)){
+                if (varAndVarOp.containsKey(key)) {
                     mapVarOps = varAndVarOp.get(key);
 
                 } else {
@@ -146,23 +149,25 @@ class ProductItemRepositoryTest {
                     valuesExisted.add(v.getValue());
                 });
 
-                if(!valuesExisted.contains(varOp.getValue())){
+                if (!valuesExisted.contains(varOp.getValue())) {
                     mapVarOps.add(varOp);
                     varAndVarOp.put(key, mapVarOps);
                 }
             });
         }));
 
-        for(Long key: varAndVarOp.keySet()){
+        for (Long key : varAndVarOp.keySet()) {
             List<VariationOption> values = varAndVarOp.get(key);
             System.out.print("Key: " + key + ", Value: [");
-            values.forEach(value -> {System.out.print(" " +value.getValue());});
+            values.forEach(value -> {
+                System.out.print(" " + value.getValue());
+            });
             System.out.println("]");
         }
     }
 
     @Test
-    public void checkInsert(){
+    public void checkInsert() {
         ProductItem item = productItemRepository.selectProductItemAndFetchConfigById(20L);
         VariationOption variationOption = variationOptionRepository.findById(50L).get();
         System.out.println(item.getPrice());
@@ -174,12 +179,5 @@ class ProductItemRepositoryTest {
         item.getProductConfigurations().add(proConf);
         productItemRepository.save(item);
 
-    }
-
-    @Test
-    public void xyz(){
-        ProductItem item = productItemRepository.selectProductItemAndFetchConfigById(17L);
-        ProductItem itemWithImages = productItemRepository.selectProductItemAndFetchImages(item);
-        System.out.println(itemWithImages.getProductImages().size());
     }
 }

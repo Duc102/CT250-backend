@@ -7,19 +7,22 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@IdClass(UserAddressAssociationId.class)
+//@IdClass(UserAddressAssociationId.class) // => This is @IdClass.
 @Table(name = "user_address")
 @AllArgsConstructor
 @Getter
 @Setter
 public class UserAddressAssociation {
-    @Id
-    @Column(name = "user_id")
-    private long userId;
+//    @Id                                 //
+//    @Column(name = "user_id")           //
+//    private long userId;                //
+//                                        // => This is @IdClass
+//    @Id                                 //
+//    @Column(name = "address_id")        //
+//    private long addressId;             //
 
-    @Id
-    @Column(name = "address_id")
-    private long addressId;
+    @EmbeddedId
+    private UserAddressEmbeddedId id;
 
     @Column(name = "is_default")
     private boolean isDefault;
@@ -33,8 +36,8 @@ public class UserAddressAssociation {
     private Address address;
 
     public UserAddressAssociation(){
-        userId = -1;
-        addressId = -1;
+//        userId = -1;
+//        addressId = -1;
         isDefault = false;
     }
 }

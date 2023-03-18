@@ -18,7 +18,7 @@ import javax.persistence.Table;
 @Setter
 public class Country {
     @Id
-    private String id;
+    private int id;
     @Column(name = "name")
     private String name;
 }

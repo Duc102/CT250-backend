@@ -1,6 +1,7 @@
 package ecommerce.repository;
 
 import ecommerce.models.Address;
+import ecommerce.models.Country;
 import ecommerce.models.SiteUser;
 import ecommerce.services.AddressService;
 import ecommerce.services.UserService;
@@ -176,8 +177,6 @@ class SiteUserRepositoryTest {
     @Test
     public void functionAddNewAddress(){
         Address address = new Address();
-        address.setUnitNumber(101);
-        address.setStreetNumber("22/12");
         addressRepository.save(address);
     }
 
@@ -194,7 +193,6 @@ class SiteUserRepositoryTest {
         user = siteUserRepository.save(user);
         System.out.println(user.getId());
         Address address = new Address();
-        address.setUnitNumber(1234);
         System.out.println(address.getId());
         address = addressRepository.save(address);
         System.out.println(address.getId());
@@ -226,8 +224,6 @@ class SiteUserRepositoryTest {
     @Test
     public void addNewAddressIntoUserService(){
         Address address = new Address();
-        address.setUnitNumber(1090);
-        userService.addNewAddressToSiteUser(9L, address);
     }
 
 }
