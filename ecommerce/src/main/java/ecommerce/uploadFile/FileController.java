@@ -1,5 +1,6 @@
 package ecommerce.uploadFile;
 
+import ecommerce.Const.Disk;
 import ecommerce.models.ProductImage;
 import ecommerce.models.ProductItem;
 
@@ -15,25 +16,48 @@ import java.util.stream.Stream;
 
 public class FileController {
 
-    public static void saveDescription(String content){
-        File description = new File("D:/Images/description.text");
-        try {
-            if(description.createNewFile()) {
-                System.out.println("File created: " + description.getName());
-            }
-        } catch (Exception e){
+    public static List<String> listAllFilesOfDirectory(String dir){
+        File[] d = new File(dir).listFiles();
+        System.out.println(d);
+        if(d != null)
+            return Stream.of(d)
+                    .map(File::getName)
+                    .collect(Collectors.toList());
+        else return new ArrayList<>();
+    }
+    public static void deleteDirectory(String path){
+        String fullLocation = Disk.source + path;
 
-        }
-        try {
-
-            FileWriter writer = new FileWriter("D:/Images/description.text");
-            writer.write(content);
-
-        } catch(Exception ex){
-        }
+        List<String> files = listAllFilesOfDirectory(fullLocation);
+//        Delete all files before delete directory
+        files.forEach(file->{
+            File f = new File(fullLocation+"/"+file);
+            if(f.isDirectory()){
+                deleteDirectory((fullLocation+"/"+file));
+            } else
+                f.delete();
+        });
+//        Delete directory
+        File file = new File(fullLocation);
+        file.delete();
     }
     public static void main(String[] args) throws IOException {
-        File file = new File("D:/duc");
-        file.createNewFile();
+        String path = "/frontend/ecommerce/public/Images/Products/54";
+        String fullLocation = Disk.source + path;
+        List<String> files = listAllFilesOfDirectory(fullLocation);
+        for (String file : files) {
+            System.out.println(file);
+        }
+//        Delete all files before delete directory
+        files.forEach(file->{
+            File f = new File(fullLocation+"/"+file);
+            if(f.isDirectory()){
+                deleteDirectory((path+"/"+file));
+            } else
+                f.delete();
+        });
+//        Delete directory
+        File file = new File(fullLocation);
+        file.delete();
     }
 }

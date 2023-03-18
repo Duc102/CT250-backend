@@ -106,8 +106,8 @@ public class ProductController {
     }
 
     @DeleteMapping("productItem/quickDelete/{id}")
-    public void quickDeleteProductItem(@PathVariable long id){
-        productService.deleteProductItemById(id);
+    public boolean quickDeleteProductItem(@PathVariable long id){
+        return productService.deleteProductItemById(id);
     }
 
     @GetMapping("productItemsDetail/{id}")

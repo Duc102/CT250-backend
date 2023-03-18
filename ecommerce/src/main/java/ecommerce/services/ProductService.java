@@ -335,8 +335,17 @@ public class ProductService {
      * Quick delete a product by id.
      * @param id
      */
-    public void deleteProductItemById(long id) {
+    public boolean deleteProductItemById(long id) {
+        Product product = productItemRepository.selectProductByProductItemId(id);
         productItemRepository.deleteById(id);
+        FileUtils.deleteDirectory("/frontend/ecommerce/public/Images/Products/"+product.getId()+"/"+id);
+        Product after = productRepository.findById(product.getId()).get();
+        int haveProItem = after.getProductItems().size();
+        if(haveProItem == 0){
+            FileUtils.deleteDirectory("/frontend/ecommerce/public/Images/Products/"+after.getId());
+            FileUtils.deleteDirectory("/Store/Products/Descriptions/"+after.getId());
+        }
+        return true;
     }
 
 
