@@ -22,8 +22,6 @@ public class Product {
     private String name;
     @Column(name = "description")
     private String description;
-    @Column(name = "product_image")
-    private String productImage;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -37,7 +35,6 @@ public class Product {
         id = 0;
         name = "New Product";
         description = "The best product";
-        productImage = "This image for the product";
         productCategory = null;
     }
 }

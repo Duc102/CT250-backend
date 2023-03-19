@@ -1,5 +1,6 @@
 package ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class OrderLine {
     @JoinColumn(name = "product_item_id")
     private ProductItem productItem;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "shop_order_id")
     private ShopOrder shopOrder;

@@ -2,6 +2,7 @@ package ecommerce.models;
 
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,12 +12,12 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name="shop_order")
 @AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
 public class ShopOrder {
@@ -44,10 +45,14 @@ public class ShopOrder {
     @UpdateTimestamp
     private LocalDateTime dateUpdate;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "shopOrder")
     List<OrderLine> orderLines;
 
     @Column(name="order_total")
     private float orderTotal;
 
+    public ShopOrder(){
+        orderLines = new ArrayList<>();
+    }
 }

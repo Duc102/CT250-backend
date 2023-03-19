@@ -22,8 +22,6 @@ public class ProductItem {
     private String sku;
     @Column(name = "qty_in_stock")
     private int qtyInStock;
-    @Column(name = "product_image")
-    private String productImage;
     @Column(name = "price")
     private long price;
 
@@ -44,7 +42,6 @@ public class ProductItem {
         id = 0;
         sku = "00000000";
         qtyInStock = 0;
-        productImage = "product.png";
         price = 0;
         product = null;
     }
