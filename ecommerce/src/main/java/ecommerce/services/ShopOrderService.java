@@ -7,6 +7,7 @@ import ecommerce.repository.ShopOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -41,6 +42,16 @@ public class ShopOrderService {
      */
     public List<ShopOrder> findShopOrderByOrderStatus(Long orderStatusId){
         return shopOrderRepository.selectByOrderStatus(orderStatusId);
+    }
+
+    /**
+     * Get shop order by order date.
+     * @param dateTime
+     * @return
+     */
+    public List<ShopOrder> findShopOrderByCreatedDate(LocalDateTime dateTime){
+        LocalDateTime date = LocalDateTime.of(dateTime.getYear(), dateTime.getMonth(), dateTime.getDayOfMonth(), 0, 0, 0);
+        return shopOrderRepository.selectByCreatedDate(date);
     }
 
     /**

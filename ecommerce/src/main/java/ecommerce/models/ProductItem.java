@@ -23,7 +23,7 @@ public class ProductItem {
     @Column(name = "qty_in_stock")
     private int qtyInStock;
     @Column(name = "price")
-    private long price;
+    private float price;
 
     @JsonBackReference
     @ManyToOne

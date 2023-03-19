@@ -6,6 +6,7 @@ import ecommerce.services.ShopOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -44,6 +45,16 @@ public class ShopOrderController {
         return shopOrderService.findShopOrderById(id);
     }
 
+    @PostMapping("/getShopOrder/dateTime")
+    public List<ShopOrder> getShopOrderByDateTime(@RequestBody LocalDateTime dateTime){
+        System.out.println(dateTime);
+        System.out.println(dateTime.getDayOfMonth());
+        System.out.println(dateTime.getMonthValue());
+        System.out.println(dateTime.getMonth().name());
+        System.out.println(dateTime.getYear());
+        System.out.println(dateTime.getMonthValue());
+        return shopOrderService.findShopOrderByCreatedDate(dateTime);
+    }
     @GetMapping("/getAllOrderStatus")
     public List<OrderStatus> getAllOrderStatus(){
         return shopOrderService.findAllOrderStatus();
