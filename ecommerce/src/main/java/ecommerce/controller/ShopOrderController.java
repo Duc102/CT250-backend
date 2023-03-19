@@ -59,4 +59,14 @@ public class ShopOrderController {
     public List<OrderStatus> getAllOrderStatus(){
         return shopOrderService.findAllOrderStatus();
     }
+
+    @GetMapping("/quickUpdate/{orderId}/{statusId}")
+    public ShopOrder quickUpdateShopOrderStatus(@PathVariable long orderId, @PathVariable long statusId){
+        return shopOrderService.updateShopOrderStatus(orderId, statusId);
+    }
+
+    @GetMapping("/quickDeleteOrder/{id}")
+    public boolean quickDeleteShoOrder(@PathVariable long id){
+        return shopOrderService.deleteShopOrder(id);
+    }
 }

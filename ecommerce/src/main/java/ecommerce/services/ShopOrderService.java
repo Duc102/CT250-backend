@@ -61,4 +61,22 @@ public class ShopOrderService {
     public List<OrderStatus> findAllOrderStatus(){
         return orderStatusRepository.findAll();
     }
+
+    /**
+     * Update shop order status by shop order id and status id
+     * @param shopOrderId
+     * @param orderStatusId
+     * @return
+     */
+    public ShopOrder updateShopOrderStatus(long shopOrderId, long orderStatusId) {
+        ShopOrder order = shopOrderRepository.findById(shopOrderId).get();
+        OrderStatus status = orderStatusRepository.findById(orderStatusId).get();
+        order.setOrderStatus(status);
+        return shopOrderRepository.save(order);
+    }
+
+    public boolean deleteShopOrder(long id){
+        shopOrderRepository.deleteById(id);
+        return true;
+    }
 }
