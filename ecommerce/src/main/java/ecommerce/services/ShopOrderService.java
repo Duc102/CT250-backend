@@ -21,7 +21,7 @@ public class ShopOrderService {
      * Find all shop order.
      * @return
      */
-    public List<ShopOrder> findAllShopOrder(){
+    public List<ShopOrder> findAllShopOrders(){
         return shopOrderRepository.findAll();
     }
 

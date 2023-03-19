@@ -58,7 +58,7 @@ class ShopOrderRepositoryTest {
 
     @Test
     public void function(){
-        List<ShopOrder> shopOrders = shopOrderService.findAllShopOrder();
+        List<ShopOrder> shopOrders = shopOrderService.findShopOrderByOrderStatus(2L);
         System.out.println(shopOrders.size());
     }
 
