@@ -45,8 +45,6 @@ public class SiteUser {
 
     public UserAddressAssociation addAddress(Address address, boolean isDefault){
         UserAddressAssociation association = new UserAddressAssociation();
-//        association.setAddressId(address.getId());
-//        association.setUserId(this.id);
         association.setAddress(address);
         association.setSiteUser(this);
         association.setDefault(isDefault);
