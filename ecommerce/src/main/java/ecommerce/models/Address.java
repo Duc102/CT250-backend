@@ -1,5 +1,6 @@
 package ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Address {
     @Column(name = "postal_code")
     private String postalCode;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "address", cascade = CascadeType.ALL)
     private Set<UserAddressAssociation> siteUsers;
 

@@ -1,5 +1,7 @@
 package ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,6 +29,7 @@ public class UserAddressAssociation {
     @Column(name = "is_default")
     private boolean isDefault;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id", updatable = false, insertable = false, referencedColumnName = "id")
     private SiteUser siteUser;
@@ -36,8 +39,6 @@ public class UserAddressAssociation {
     private Address address;
 
     public UserAddressAssociation(){
-//        userId = -1;
-//        addressId = -1;
         isDefault = false;
     }
 }

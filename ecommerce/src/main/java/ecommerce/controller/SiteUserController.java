@@ -19,7 +19,7 @@ public class SiteUserController {
     }
 
     @PostMapping("/login")
-    public boolean login(@RequestBody SiteUser siteUser){
+    public SiteUser login(@RequestBody SiteUser siteUser){
         return siteUserService.login(siteUser.getEmailAddress(), siteUser.getPassword());
     }
 }

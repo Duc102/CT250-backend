@@ -7,7 +7,7 @@ import java.io.Serializable;
 @Embeddable
 public class UserAddressEmbeddedId implements Serializable {
     @Column(name="user_id")
-    private  long user;
+    private  long userId;
     @Column(name="address_id")
-    private long address;
+    private long address_id;
 }

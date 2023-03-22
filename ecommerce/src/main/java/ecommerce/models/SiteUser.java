@@ -1,5 +1,6 @@
 package ecommerce.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,6 +33,7 @@ public class SiteUser {
     @Column(name = "password")
     private String password;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.ALL)
     private Set<UserAddressAssociation> addresses;
 

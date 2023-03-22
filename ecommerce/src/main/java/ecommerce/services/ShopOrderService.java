@@ -1,14 +1,17 @@
 package ecommerce.services;
 
-import ecommerce.models.OrderStatus;
-import ecommerce.models.ShopOrder;
+import ecommerce.dao.shopOrder.ShopOrderDto;
+import ecommerce.models.*;
+import ecommerce.repository.OrderLineRepository;
 import ecommerce.repository.OrderStatusRepository;
 import ecommerce.repository.ShopOrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 public class ShopOrderService {
@@ -18,6 +21,34 @@ public class ShopOrderService {
     @Autowired
     private OrderStatusRepository orderStatusRepository;
 
+    @Autowired
+    private OrderLineRepository orderLineRepository;
+
+    public ShopOrder createNewShopOrder(ShopOrderDto shopOrderDto){
+        SiteUser siteUser = shopOrderDto.getSiteUser();
+        List<ShoppingCartItem> shoppingCartItems = shopOrderDto.getShoppingCartItems();
+        System.out.println(shoppingCartItems.size());
+        Address address = shopOrderDto.getAddress();
+        ShopOrder newShopOrder = new ShopOrder();
+        newShopOrder.setSiteUser(siteUser);
+        newShopOrder.setShippingAddress(address);
+        OrderStatus status = orderStatusRepository.findById(1L).get();
+        newShopOrder.setOrderStatus(status);
+        List<OrderLine> orderLines = new ArrayList<>();
+        AtomicReference<Float> total = new AtomicReference<>((float) 0);
+        shoppingCartItems.forEach(shoppingCartItem -> {
+            OrderLine orderLine = new OrderLine();
+            orderLine.setShopOrder(newShopOrder);
+            orderLine.setProductItem(shoppingCartItem.getProductItem());
+            orderLine.setQty(shoppingCartItem.getQty());
+//            orderLine = orderLineRepository.save(orderLine);
+            orderLines.add(orderLine);
+            total.updateAndGet(v -> (float) (v + shoppingCartItem.getQty() * shoppingCartItem.getProductItem().getPrice()));
+        });
+        newShopOrder.setOrderLines(orderLines);
+        newShopOrder.setOrderTotal(total.get());
+        return shopOrderRepository.save(newShopOrder);
+    }
     /***
      * Find all shop order.
      * @return

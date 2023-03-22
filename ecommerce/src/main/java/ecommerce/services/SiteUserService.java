@@ -17,10 +17,10 @@ public class SiteUserService {
         else return false;
     }
 
-    public boolean login(String email, String password){
+    public SiteUser login(String email, String password){
         SiteUser siteUser = siteUserRepository.findSiteUserByEmailAddressAndPassword(email, password);
         if(siteUser != null)
-            return true;
-        return false;
+            return siteUser;
+        return null;
     }
 }

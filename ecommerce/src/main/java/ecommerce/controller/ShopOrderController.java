@@ -1,7 +1,7 @@
 package ecommerce.controller;
 
-import ecommerce.models.OrderStatus;
-import ecommerce.models.ShopOrder;
+import ecommerce.dao.shopOrder.ShopOrderDto;
+import ecommerce.models.*;
 import ecommerce.services.ShopOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +16,12 @@ public class ShopOrderController {
     @Autowired
     private ShopOrderService shopOrderService;
 
+
+    @PostMapping("/createNewShopOrder")
+    public ShopOrder createNewShopOrder(@RequestBody ShopOrderDto shopOrderDto){
+        return shopOrderService.createNewShopOrder(shopOrderDto);
+
+    }
     /**
      * Get all product shop orders
      * @return
