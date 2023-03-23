@@ -1,5 +1,6 @@
 package ecommerce.repository;
 
+import ecommerce.dao.shopOrder.RevenueDao;
 import ecommerce.models.*;
 import ecommerce.services.ShopOrderService;
 import org.junit.jupiter.api.Test;
@@ -7,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ShopOrderRepositoryTest {
@@ -58,8 +57,10 @@ class ShopOrderRepositoryTest {
 
     @Test
     public void function(){
-        List<ShopOrder> shopOrders = shopOrderService.findShopOrderByOrderStatus(2L);
-        System.out.println(shopOrders.size());
+//        LocalDateTime dateTimeBegin = LocalDateTime.of(2023, 3, 1, 0, 0, 0);
+//        LocalDateTime dateTimeEnd = LocalDateTime.of(2023, 4, 1, 0, 0, 0);
+        List<RevenueDao> revenueDaos = shopOrderRepository.selectRevenue(2023);
+        System.out.println(revenueDaos.size());
     }
 
 }

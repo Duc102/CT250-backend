@@ -23,4 +23,8 @@ public class SiteUserService {
             return siteUser;
         return null;
     }
+
+    public int countSiteUser(){
+        return siteUserRepository.countSiteUser();
+    }
 }

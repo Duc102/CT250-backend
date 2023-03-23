@@ -53,14 +53,19 @@ public class ShopOrderController {
 
     @PostMapping("/getShopOrder/dateTime")
     public List<ShopOrder> getShopOrderByDateTime(@RequestBody LocalDateTime dateTime){
-        System.out.println(dateTime);
-        System.out.println(dateTime.getDayOfMonth());
-        System.out.println(dateTime.getMonthValue());
-        System.out.println(dateTime.getMonth().name());
-        System.out.println(dateTime.getYear());
-        System.out.println(dateTime.getMonthValue());
         return shopOrderService.findShopOrderByCreatedDate(dateTime);
     }
+
+    @GetMapping("/todayShopOrders")
+    public List<ShopOrder> getTodayShopOrders(){
+        return shopOrderService.findTodayShopOrders();
+    }
+
+    @GetMapping("/todayEarning")
+    public float todayEarning(){
+        return shopOrderService.findTodayEarning();
+    }
+
     @GetMapping("/getAllOrderStatus")
     public List<OrderStatus> getAllOrderStatus(){
         return shopOrderService.findAllOrderStatus();

@@ -22,4 +22,10 @@ public class SiteUserController {
     public SiteUser login(@RequestBody SiteUser siteUser){
         return siteUserService.login(siteUser.getEmailAddress(), siteUser.getPassword());
     }
+
+    @GetMapping("/countSiteUser")
+    public int countSiteUser(){
+        return siteUserService.countSiteUser();
+    }
+
 }

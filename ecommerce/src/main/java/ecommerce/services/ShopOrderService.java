@@ -1,5 +1,6 @@
 package ecommerce.services;
 
+import ecommerce.dao.shopOrder.RevenueDao;
 import ecommerce.dao.shopOrder.ShopOrderDto;
 import ecommerce.models.*;
 import ecommerce.repository.OrderLineRepository;
@@ -41,7 +42,6 @@ public class ShopOrderService {
             orderLine.setShopOrder(newShopOrder);
             orderLine.setProductItem(shoppingCartItem.getProductItem());
             orderLine.setQty(shoppingCartItem.getQty());
-//            orderLine = orderLineRepository.save(orderLine);
             orderLines.add(orderLine);
             total.updateAndGet(v -> (float) (v + shoppingCartItem.getQty() * shoppingCartItem.getProductItem().getPrice()));
         });
@@ -85,6 +85,18 @@ public class ShopOrderService {
         return shopOrderRepository.selectByCreatedDate(date);
     }
 
+    public List<ShopOrder> findTodayShopOrders(){
+        LocalDateTime today =LocalDateTime.now();
+        LocalDateTime beginOfDay = LocalDateTime.of(today.getYear(), today.getMonth(), today.getDayOfMonth(), 0, 0, 0);
+        return shopOrderRepository.selectByCreatedDate(beginOfDay);
+    }
+
+    public float findTodayEarning(){
+        LocalDateTime today =LocalDateTime.now();
+        LocalDateTime beginOfDay = LocalDateTime.of(today.getYear(), today.getMonth(), today.getDayOfMonth(), 0, 0, 0);
+        return shopOrderRepository.todayEarning(beginOfDay);
+    }
+
     /**
      * Find all order status
      * @return
@@ -109,5 +121,9 @@ public class ShopOrderService {
     public boolean deleteShopOrder(long id){
         shopOrderRepository.deleteById(id);
         return true;
+    }
+
+    public List<RevenueDao> findRevenue(int year){
+        return shopOrderRepository.selectRevenue(year);
     }
 }

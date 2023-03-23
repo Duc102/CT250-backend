@@ -1,5 +1,6 @@
 package ecommerce.repository;
 
+import ecommerce.dao.shopOrder.RevenueDao;
 import ecommerce.models.OrderLine;
 import ecommerce.models.ShopOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,14 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
 
     @Query(value="select s from ShopOrder s where s.dateCreate = :dateTime")
     List<ShopOrder> selectByCreatedDate(LocalDateTime dateTime);
+
+    @Query(value = "select sum(s.orderTotal) from ShopOrder s where s.dateCreate = :dateTime")
+    float todayEarning(LocalDateTime dateTime);
+
+    @Query(value = "select r.month month, count(r.month) count, sum(r.order_total) total from ( "
+            +"select month(order_date) month, order_total "
+            +"from shop_order "
+            +"where year(order_date) = :year ) as r "
+            +"group by r.month", nativeQuery = true)
+    List<RevenueDao> selectRevenue(int year);
 }
