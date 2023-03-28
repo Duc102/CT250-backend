@@ -2,10 +2,10 @@ package ecommerce.services;
 
 import ecommerce.dao.shopOrder.RevenueDao;
 import ecommerce.dao.shopOrder.ShopOrderDto;
+import ecommerce.dao.shopOrder.TopTenProItDao;
+import ecommerce.dao.shopOrder.TopTenProItDto;
 import ecommerce.models.*;
-import ecommerce.repository.OrderLineRepository;
-import ecommerce.repository.OrderStatusRepository;
-import ecommerce.repository.ShopOrderRepository;
+import ecommerce.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +24,11 @@ public class ShopOrderService {
 
     @Autowired
     private OrderLineRepository orderLineRepository;
+
+    @Autowired
+    private ProductItemRepository productItemRepository;
+    @Autowired
+    private ProductRepository productRepository;
 
     public ShopOrder createNewShopOrder(ShopOrderDto shopOrderDto){
         SiteUser siteUser = shopOrderDto.getSiteUser();
@@ -125,5 +130,17 @@ public class ShopOrderService {
 
     public List<RevenueDao> findRevenue(int year){
         return shopOrderRepository.selectRevenue(year);
+    }
+
+    public List<TopTenProItDto> findTopTens(int month, int year){
+        List<TopTenProItDao> topTenDaos = shopOrderRepository.selectTopTenProIts(month, year);
+        List<TopTenProItDto> topTenProItDtos = new ArrayList<>();
+        topTenDaos.forEach(topTen ->{
+            ProductItem productItem = productItemRepository.findById(topTen.getProductItemId()).get();
+            Product product = productItemRepository.selectProductByProductItemId(productItem.getId());
+            TopTenProItDto topTenProItDto = new TopTenProItDto(product, productItem, topTen.getCount());
+            topTenProItDtos.add(topTenProItDto);
+        });
+        return topTenProItDtos;
     }
 }

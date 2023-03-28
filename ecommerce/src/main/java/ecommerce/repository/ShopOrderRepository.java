@@ -1,6 +1,7 @@
 package ecommerce.repository;
 
 import ecommerce.dao.shopOrder.RevenueDao;
+import ecommerce.dao.shopOrder.TopTenProItDao;
 import ecommerce.models.OrderLine;
 import ecommerce.models.ShopOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,7 +24,7 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
     @Query(value="select s from ShopOrder s where s.dateCreate = :dateTime")
     List<ShopOrder> selectByCreatedDate(LocalDateTime dateTime);
 
-    @Query(value = "select sum(s.orderTotal) from ShopOrder s where s.dateCreate = :dateTime")
+    @Query(value = "select case when sum(s.orderTotal) is null then 0 else sum(s.orderTotal) end as total from ShopOrder s where s.dateCreate = :dateTime")
     float todayEarning(LocalDateTime dateTime);
 
     @Query(value = "select r.month month, count(r.month) count, sum(r.order_total) total from ( "
@@ -32,4 +33,11 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
             +"where year(order_date) = :year ) as r "
             +"group by r.month", nativeQuery = true)
     List<RevenueDao> selectRevenue(int year);
+
+    @Query(value = "select top 10 pi.id productItemId, count(pi.id) count "
+            + "from shop_order so join order_line ol on so.id = ol.shop_order_id join product_item pi on pi.id = ol.product_item_id "
+            + "where month(so.order_date) = :month and year(so.order_date) = :year "
+            + "group by pi.id "
+            + "order by count desc",nativeQuery = true)
+    List<TopTenProItDao> selectTopTenProIts(int month, int year);
 }

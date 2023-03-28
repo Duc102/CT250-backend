@@ -1,6 +1,7 @@
 package ecommerce.controller;
 
 import ecommerce.dao.shopOrder.ShopOrderDto;
+import ecommerce.dao.shopOrder.TopTenProItDto;
 import ecommerce.models.*;
 import ecommerce.services.ShopOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,7 @@ public class ShopOrderController {
     public List<OrderStatus> getAllOrderStatus(){
         return shopOrderService.findAllOrderStatus();
     }
+
 
     @GetMapping("/quickUpdate/{orderId}/{statusId}")
     public ShopOrder quickUpdateShopOrderStatus(@PathVariable long orderId, @PathVariable long statusId){
