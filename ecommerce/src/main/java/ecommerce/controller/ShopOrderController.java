@@ -63,7 +63,7 @@ public class ShopOrderController {
     }
 
     @GetMapping("/todayEarning")
-    public float todayEarning(){
+    public Float todayEarning(){
         return shopOrderService.findTodayEarning();
     }
 

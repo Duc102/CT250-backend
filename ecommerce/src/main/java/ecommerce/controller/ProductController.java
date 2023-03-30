@@ -126,6 +126,11 @@ public class ProductController {
         return productService.findProductItemsByProductIdWithConfiguration(id, conditions);
     }
 
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id){
+        return productService.findProductById(id);
+    }
+
 
 
 
@@ -149,10 +154,7 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id){
-        return productService.findProductById(id);
-    }
+
 
 
 

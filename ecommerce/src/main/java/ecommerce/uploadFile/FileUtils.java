@@ -39,23 +39,26 @@ public class FileUtils {
     }
 
     public static String saveFile(String fileName, String storageLocation, MultipartFile multipartFile) throws IOException {
-        String directory = "D:/B1906657/NL/code/fullstack/frontend/ecommerce/public/Images" + storageLocation;
+        String directory = getRootLocation()+"frontend/ecommerce/public/Images" + storageLocation;
         File file = new File(directory);
         file.mkdir();
         Path uploadDirectory = Paths.get(directory);
         String extension = FileUtils.getExtension(multipartFile.getOriginalFilename());
         fileName = fileName.concat(".").concat(extension);
-        try (InputStream inputStream = multipartFile.getInputStream()) {
-            Path filePath = uploadDirectory.resolve(fileName); // result: /link.png
-            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e){
-            throw new IOException("Error saving upload file: " + fileName, e);
-        }
+        File checkExisted = new File(directory+"/"+fileName);
+        if(!checkExisted.exists())
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                Path filePath = uploadDirectory.resolve(fileName); // result: /link.png
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (IOException e){
+                throw new IOException("Error saving upload file: " + fileName, e);
+            }
         return "/Images" + storageLocation + "/" + fileName;
     }
 
     public static void saveJsonFile(String fileName, String storageLocation, String json) throws IOException {
-        String fullLocation = "D:/B1906657/NL/code/fullstack/Store" + storageLocation;
+//        String fullLocation = "D:/B1906657/NL/code/fullstack/Store" + storageLocation;
+        String fullLocation = getRootLocation()+"Store" + storageLocation;
         File file = new File(fullLocation + "/" + fileName);
         file.createNewFile();
         FileWriter writer = new FileWriter(fullLocation + "/" + fileName);
@@ -65,15 +68,15 @@ public class FileUtils {
 
 
     public static String readFile(String storageLocation) throws IOException {
-        String fullLocation = "D:/B1906657/NL/code/fullstack/Store" + storageLocation;
+//        String fullLocation = "D:/B1906657/NL/code/fullstack/Store" + storageLocation;
+        String fullLocation = getRootLocation()+"Store" + storageLocation;
         Path filePath = Paths.get(fullLocation);
         String read = Files.readString(filePath);
         return read;
-
     }
 
     public static void deleteProductItemImagesFileIfNotNeed(List<ProductImage> fileNames) {
-        String storage = "D:/B1906657/NL/code/fullstack/frontend/ecommerce/public";
+        String storage = getRootLocation()+"frontend/ecommerce/public";
         String productItemDir = fileNames.get(0).getUrl().substring(0, fileNames.get(0).getUrl().lastIndexOf('/'));
         String fullLocation = storage.concat(productItemDir);
         Set<String> filesExist = listFilesOfDirectory(fullLocation);
@@ -116,5 +119,14 @@ public class FileUtils {
 //        Delete directory
         File file = new File(fullLocation);
         file.delete();
+    }
+
+    public static String getRootLocation() {
+        String root = System.getProperty("user.dir");
+        String split[] = root.split("\\\\");
+        String result = "";
+        for(int i = 0; i< split.length - 2; i++)
+            result=result.concat(split[i]+"/");
+        return result;
     }
 }

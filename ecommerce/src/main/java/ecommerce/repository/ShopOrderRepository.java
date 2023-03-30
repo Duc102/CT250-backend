@@ -24,8 +24,8 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
     @Query(value="select s from ShopOrder s where s.dateCreate = :dateTime")
     List<ShopOrder> selectByCreatedDate(LocalDateTime dateTime);
 
-    @Query(value = "select case when sum(s.orderTotal) is null then 0 else sum(s.orderTotal) end as total from ShopOrder s where s.dateCreate = :dateTime")
-    float todayEarning(LocalDateTime dateTime);
+    @Query(value = "select case when sum(s.orderTotal) is null then 0.0 else sum(s.orderTotal) end as total from ShopOrder s where s.dateCreate = :dateTime")
+    Float todayEarning(LocalDateTime dateTime);
 
     @Query(value = "select r.month month, count(r.month) count, sum(r.order_total) total from ( "
             +"select month(order_date) month, order_total "

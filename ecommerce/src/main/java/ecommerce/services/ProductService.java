@@ -36,17 +36,22 @@ public class ProductService {
         product.setName(newProduct.getName());
         product.setProductCategory(category);
         Product pro = productRepository.save(product);
-        File dir = new File(Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId());
+//        File dir = new File(Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId());
+        File dir = new File(FileUtils.getRootLocation()+"frontend/ecommerce/public/Images/Products/"+pro.getId());
         if(!dir.exists()) {
             dir.mkdir();
-            File imgDir = new File(Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
+//            File imgDir = new File(Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
+            File imgDir = new File(FileUtils.getRootLocation()+"frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
             imgDir.mkdir();
-            FileUtils.copyAllFileInDirectory(Disk.source+"/frontend/ecommerce/public/Images/Products/0/Images",
-                    Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
+//            FileUtils.copyAllFileInDirectory(Disk.source+"/frontend/ecommerce/public/Images/Products/0/Images",
+//                    Disk.source+"/frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
+            FileUtils.copyAllFileInDirectory(FileUtils.getRootLocation()+"frontend/ecommerce/public/Images/Products/0/Images",
+                    FileUtils.getRootLocation()+"frontend/ecommerce/public/Images/Products/"+pro.getId()+"/Images");
         } else {
             System.out.println("Product directory existed");
         }
-        dir = new File(Disk.source+"/Store/Products/Descriptions/"+pro.getId());
+//        dir = new File(Disk.source+"/Store/Products/Descriptions/"+pro.getId());
+        dir = new File(FileUtils.getRootLocation()+"Store/Products/Descriptions/"+pro.getId());
         if(!dir.exists()) {
             dir.mkdir();
         } else {
@@ -64,8 +69,10 @@ public class ProductService {
             newProductItem.setPrice(productItem.getPrice());
             newProductItem.setSku(productItem.getSku());
             newProductItem.setQtyInStock(productItem.getQtyInStock());
+//            Save a product item.
             ProductItem pi = productItemRepository.save(newProductItem);
-            File dir = new File("D:/B1906657/NL/code/fullstack/frontend/ecommerce/public/Images/Products/"+productId+"/"+String.valueOf(pi.getId()));
+//            File dir = new File("D:/B1906657/NL/code/fullstack/frontend/ecommerce/public/Images/Products/"+productId+"/"+String.valueOf(pi.getId()));
+            File dir = new File(FileUtils.getRootLocation()+"frontend/ecommerce/public/Images/Products/"+productId+"/"+String.valueOf(pi.getId()));
             if(!dir.exists()){
                 dir.mkdir();
             } else {

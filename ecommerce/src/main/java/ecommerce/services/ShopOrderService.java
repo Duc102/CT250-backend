@@ -96,7 +96,7 @@ public class ShopOrderService {
         return shopOrderRepository.selectByCreatedDate(beginOfDay);
     }
 
-    public float findTodayEarning(){
+    public Float findTodayEarning(){
         LocalDateTime today =LocalDateTime.now();
         LocalDateTime beginOfDay = LocalDateTime.of(today.getYear(), today.getMonth(), today.getDayOfMonth(), 0, 0, 0);
         return shopOrderRepository.todayEarning(beginOfDay);
