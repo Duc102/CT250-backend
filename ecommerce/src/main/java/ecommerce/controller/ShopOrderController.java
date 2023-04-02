@@ -67,6 +67,11 @@ public class ShopOrderController {
         return shopOrderService.findTodayEarning();
     }
 
+    @GetMapping("/topTenProductItems/{month}/{year}")
+    public List<ProductItem> getTopTenProductItem(@PathVariable int month, @PathVariable int year){
+        return shopOrderService.findTopTenProductItem(month, year);
+    }
+
     @GetMapping("/getAllOrderStatus")
     public List<OrderStatus> getAllOrderStatus(){
         return shopOrderService.findAllOrderStatus();

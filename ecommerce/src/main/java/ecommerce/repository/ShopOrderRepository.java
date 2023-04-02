@@ -3,6 +3,7 @@ package ecommerce.repository;
 import ecommerce.dao.shopOrder.RevenueDao;
 import ecommerce.dao.shopOrder.TopTenProItDao;
 import ecommerce.models.OrderLine;
+import ecommerce.models.ProductItem;
 import ecommerce.models.ShopOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -40,4 +41,11 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
             + "group by pi.id "
             + "order by count desc",nativeQuery = true)
     List<TopTenProItDao> selectTopTenProIts(int month, int year);
+
+    @Query(value = "select top 10 pi.id "
+            + "from shop_order so join order_line ol on so.id = ol.shop_order_id join product_item pi on pi.id = ol.product_item_id "
+            + "where month(so.order_date) = :month and year(so.order_date) = :year "
+            + "group by pi.id "
+            + "order by count(pi.id) desc",nativeQuery = true)
+    List<Long> selectTopTenProductItem(int month, int year);
 }

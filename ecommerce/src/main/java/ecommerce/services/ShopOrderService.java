@@ -68,7 +68,7 @@ public class ShopOrderService {
      * @return
      */
     public ShopOrder findShopOrderById(Long shopOrderId){
-        return shopOrderRepository.findById(shopOrderId).get();
+        return shopOrderRepository.findById(shopOrderId).orElse(null);
     }
 
     /**
@@ -142,5 +142,15 @@ public class ShopOrderService {
             topTenProItDtos.add(topTenProItDto);
         });
         return topTenProItDtos;
+    }
+
+    public List<ProductItem> findTopTenProductItem(int month, int year){
+        List <ProductItem> result = new ArrayList<>();
+        List <Long> id = shopOrderRepository.selectTopTenProductItem(month, year);
+        id.forEach(longId -> {
+            ProductItem productItem = productItemRepository.findById(longId).get();
+            result.add(productItem);
+        });
+        return result;
     }
 }
