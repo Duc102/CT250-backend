@@ -46,6 +46,12 @@ public class ShoppingCartService {
         return true;
     }
 
+    public boolean clearShoppingCartItem(ShoppingCart shoppingCart){
+        shoppingCart.getShoppingCartItems().clear();
+        shoppingCartRepository.save(shoppingCart);
+        return true;
+    }
+
     public boolean deleteShoppingCartItem(ShoppingCartItem shoppingCartItem){
         shoppingCartItemRepository.delete(shoppingCartItem);
         return true;

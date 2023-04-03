@@ -1,5 +1,6 @@
 package ecommerce.controller;
 
+import ecommerce.dao.shopOrder.InventoryDao;
 import ecommerce.dao.shopOrder.RevenueDao;
 import ecommerce.dao.shopOrder.TopTenProItDto;
 import ecommerce.services.DashboardService;
@@ -24,5 +25,10 @@ public class DashboardController {
     @GetMapping("/topTenProductItems/{month}/{year}")
     public List<TopTenProItDto> getTopTenProductItems(@PathVariable int month, @PathVariable int year){
         return dashboardService.getTopTenProductItems(month, year);
+    }
+
+    @GetMapping("/inventory")
+    public InventoryDao getInventory(){
+        return dashboardService.getInventory();
     }
 }

@@ -1,9 +1,6 @@
 package ecommerce.services;
 
-import ecommerce.dao.shopOrder.RevenueDao;
-import ecommerce.dao.shopOrder.ShopOrderDto;
-import ecommerce.dao.shopOrder.TopTenProItDao;
-import ecommerce.dao.shopOrder.TopTenProItDto;
+import ecommerce.dao.shopOrder.*;
 import ecommerce.models.*;
 import ecommerce.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +27,12 @@ public class ShopOrderService {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private ShoppingCartService shoppingCartService;
+
     public ShopOrder createNewShopOrder(ShopOrderDto shopOrderDto){
         SiteUser siteUser = shopOrderDto.getSiteUser();
         List<ShoppingCartItem> shoppingCartItems = shopOrderDto.getShoppingCartItems();
-        System.out.println(shoppingCartItems.size());
         Address address = shopOrderDto.getAddress();
         ShopOrder newShopOrder = new ShopOrder();
         newShopOrder.setSiteUser(siteUser);
@@ -45,13 +44,22 @@ public class ShopOrderService {
         shoppingCartItems.forEach(shoppingCartItem -> {
             OrderLine orderLine = new OrderLine();
             orderLine.setShopOrder(newShopOrder);
-            orderLine.setProductItem(shoppingCartItem.getProductItem());
+//            ProductItem productItem = shoppingCartItem.getProductItem();
+            ProductItem productItem = productItemRepository.findById(shoppingCartItem.getProductItem().getId()).get();
+//            orderLine.setProductItem(shoppingCartItem.getProductItem());
+            orderLine.setProductItem(productItem);
+            productItem.setQtyInStock(productItem.getQtyInStock()-shoppingCartItem.getQty());
+
+            productItemRepository.save(productItem);
             orderLine.setQty(shoppingCartItem.getQty());
             orderLines.add(orderLine);
             total.updateAndGet(v -> (float) (v + shoppingCartItem.getQty() * shoppingCartItem.getProductItem().getPrice()));
         });
         newShopOrder.setOrderLines(orderLines);
         newShopOrder.setOrderTotal(total.get());
+//        Clear shopping cart
+        ShoppingCart shoppingCart = shoppingCartService.findShoppingCartByUserSite(siteUser.getId());
+        shoppingCartService.clearShoppingCartItem(shoppingCart);
         return shopOrderRepository.save(newShopOrder);
     }
     /***
@@ -152,5 +160,10 @@ public class ShopOrderService {
             result.add(productItem);
         });
         return result;
+    }
+
+    public InventoryDao findInventory(){
+        LocalDateTime dateTime = LocalDateTime.now();
+        return shopOrderRepository.getInventory(dateTime.getMonthValue(), dateTime.getYear());
     }
 }
