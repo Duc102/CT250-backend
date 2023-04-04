@@ -23,6 +23,9 @@ public interface ShopOrderRepository extends JpaRepository<ShopOrder, Long> {
     @Query(value="select s from ShopOrder s where s.orderStatus.id = :id")
     List<ShopOrder> selectByOrderStatus(Long id);
 
+    @Query(value = "select s from ShopOrder s where s.siteUser.id = :id")
+    List<ShopOrder> selectByUserId(Long id);
+
     @Query(value="select s from ShopOrder s where s.dateCreate = :dateTime")
     List<ShopOrder> selectByCreatedDate(LocalDateTime dateTime);
 

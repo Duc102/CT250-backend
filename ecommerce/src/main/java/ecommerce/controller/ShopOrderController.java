@@ -32,6 +32,11 @@ public class ShopOrderController {
         return shopOrderService.findAllShopOrders();
     }
 
+    @GetMapping("/getAllShopOrdersByUserId/{id}")
+    public List<ShopOrder> getAllShopOrdersByUserId(@PathVariable Long id){
+        return shopOrderService.findAllShopOrdersByUserId(id);
+    }
+
     /**
      * Get shop orders by order status
      * @param id

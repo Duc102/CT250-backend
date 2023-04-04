@@ -19,4 +19,7 @@ public interface SiteUserRepository extends JpaRepository<SiteUser, Long> {
 
     @Query(value="select count(su) from SiteUser su")
     int countSiteUser();
+
+    @Query(value="select su from SiteUser su where lower(su.name) like lower(concat('%', :name, '%'))")
+    List<SiteUser> findSiteUsersByName(String name);
 }

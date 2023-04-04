@@ -5,6 +5,8 @@ import ecommerce.repository.SiteUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SiteUserService {
     @Autowired
@@ -27,4 +29,22 @@ public class SiteUserService {
     public int countSiteUser(){
         return siteUserRepository.countSiteUser();
     }
+
+    public List<SiteUser> getAllSiteUsers(){
+        return siteUserRepository.findAll();
+    }
+
+    public List<SiteUser> getSiteUsersByName(String name){
+        return siteUserRepository.findSiteUsersByName(name);
+    }
+
+    public SiteUser getSiteUserById(Long id){
+        return siteUserRepository.findById(id).orElse(null);
+    }
+
+    public void deleteUserById(Long id){
+        siteUserRepository.deleteById(id);
+    }
+
+
 }

@@ -5,6 +5,8 @@ import ecommerce.services.SiteUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/siteUser")
 @CrossOrigin(origins = "http://localhost:3000")
@@ -26,6 +28,27 @@ public class SiteUserController {
     @GetMapping("/countSiteUser")
     public int countSiteUser(){
         return siteUserService.countSiteUser();
+    }
+
+    @GetMapping("/allSiteUsers")
+    public List<SiteUser> getAllSiteUsers(){
+        return siteUserService.getAllSiteUsers();
+    }
+
+    @GetMapping("/getSiteUsersByName/{name}")
+    public List<SiteUser> getSiteUsersByName(@PathVariable String name){
+        return siteUserService.getSiteUsersByName(name);
+    }
+
+    @GetMapping("/getSiteUserById/{id}")
+    public SiteUser getSiteUserById(@PathVariable Long id){
+        return siteUserService.getSiteUserById(id);
+    }
+
+    @DeleteMapping("/deleteSiteUser/{id}")
+    public boolean deleteSite(@PathVariable Long id){
+        siteUserService.deleteUserById(id);
+        return true;
     }
 
 }

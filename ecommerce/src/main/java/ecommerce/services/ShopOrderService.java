@@ -70,6 +70,10 @@ public class ShopOrderService {
         return shopOrderRepository.findAll();
     }
 
+    public List<ShopOrder> findAllShopOrdersByUserId(Long id){
+        return shopOrderRepository.selectByUserId(id);
+    }
+
     /**
      * Find shop order by id.
      * @param shopOrderId
