@@ -8,7 +8,9 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -35,7 +37,13 @@ public class SiteUser {
 
     @JsonManagedReference
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.ALL)
+    private List<UserPayAssociation> payments;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.ALL)
     private Set<UserAddressAssociation> addresses;
+
+
 
     public SiteUser() {
         long numberCode = System.nanoTime();
@@ -43,6 +51,7 @@ public class SiteUser {
         phoneNumber = String.valueOf(numberCode).substring(0, 9);
         password = phoneNumber;
         addresses = new HashSet<>();
+        payments = new ArrayList<>();
     }
 
     public UserAddressAssociation addAddress(Address address, boolean isDefault){

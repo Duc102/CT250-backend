@@ -34,11 +34,15 @@ public class ShopOrderService {
         SiteUser siteUser = shopOrderDto.getSiteUser();
         List<ShoppingCartItem> shoppingCartItems = shopOrderDto.getShoppingCartItems();
         Address address = shopOrderDto.getAddress();
+        Payment payment = shopOrderDto.getPayment();
+
         ShopOrder newShopOrder = new ShopOrder();
         newShopOrder.setSiteUser(siteUser);
         newShopOrder.setShippingAddress(address);
+        newShopOrder.setPayment(payment);
         OrderStatus status = orderStatusRepository.findById(1L).get();
         newShopOrder.setOrderStatus(status);
+
         List<OrderLine> orderLines = new ArrayList<>();
         AtomicReference<Float> total = new AtomicReference<>((float) 0);
         shoppingCartItems.forEach(shoppingCartItem -> {

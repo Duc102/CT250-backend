@@ -57,10 +57,9 @@ class ShopOrderRepositoryTest {
 
     @Test
     public void function(){
-//        LocalDateTime dateTimeBegin = LocalDateTime.of(2023, 3, 1, 0, 0, 0);
-//        LocalDateTime dateTimeEnd = LocalDateTime.of(2023, 4, 1, 0, 0, 0);
-        List<RevenueDao> revenueDaos = shopOrderRepository.selectRevenue(2023);
-        System.out.println(revenueDaos.size());
+        SiteUser s = siteUserRepository.findById(1L).get();
+//        System.out.println(s.getPayments().size());
+
     }
 
 }

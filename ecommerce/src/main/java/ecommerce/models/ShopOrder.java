@@ -34,6 +34,10 @@ public class ShopOrder {
     private Address shippingAddress;
 
     @ManyToOne
+    @JoinColumn(name = "payment_id")
+    private Payment payment;
+
+    @ManyToOne
     @JoinColumn(name = "order_status_id")
     private OrderStatus orderStatus;
 

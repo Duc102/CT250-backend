@@ -1,6 +1,7 @@
 package ecommerce.dao.shopOrder;
 
 import ecommerce.models.Address;
+import ecommerce.models.Payment;
 import ecommerce.models.ShoppingCartItem;
 import ecommerce.models.SiteUser;
 import lombok.AllArgsConstructor;
@@ -18,4 +19,5 @@ public class ShopOrderDto {
     private SiteUser siteUser;
     private List<ShoppingCartItem> shoppingCartItems;
     private Address address;
+    private Payment payment;
 }

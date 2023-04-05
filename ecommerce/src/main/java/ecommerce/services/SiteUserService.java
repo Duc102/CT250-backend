@@ -1,6 +1,8 @@
 package ecommerce.services;
 
+import ecommerce.models.ShoppingCart;
 import ecommerce.models.SiteUser;
+import ecommerce.repository.ShoppingCartRepository;
 import ecommerce.repository.SiteUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,18 @@ public class SiteUserService {
     @Autowired
     private SiteUserRepository siteUserRepository;
 
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
+
     public boolean register(SiteUser siteUser){
         SiteUser existed = siteUserRepository.findSiteUserByEmailAddress(siteUser.getEmailAddress());
-        if(existed == null)
+        if(existed == null){
+            ShoppingCart shoppingCart = new ShoppingCart();
+            SiteUser newSiteUser = siteUserRepository.save(siteUser);
+            shoppingCart.setSiteUser(newSiteUser);
+            shoppingCartRepository.save(shoppingCart);
             return true;
+        }
         else return false;
     }
 
