@@ -45,6 +45,10 @@ public class SiteUserController {
         return siteUserService.getSiteUserById(id);
     }
 
+    @PostMapping("/updateInfo")
+    public SiteUser updateInfo(@RequestBody SiteUser siteUser){
+        return siteUserService.updateInfo(siteUser);
+    }
     @DeleteMapping("/deleteSiteUser/{id}")
     public boolean deleteSite(@PathVariable Long id){
         siteUserService.deleteUserById(id);
