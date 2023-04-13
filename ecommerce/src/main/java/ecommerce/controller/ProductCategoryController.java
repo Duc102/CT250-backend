@@ -29,4 +29,8 @@ public class ProductCategoryController {
     public List<ProductCategoryDao> getChildrenOfProductCategory(@PathVariable long id){
         return productCategoryService.findChildrenOfCategory(id);
     }
+
+    @GetMapping("/search/{name}")
+    public  List<ProductCategory> getProductCategoryByName(@PathVariable String name) {
+        return productCategoryService.findProductCategoryByName(name); }
 }

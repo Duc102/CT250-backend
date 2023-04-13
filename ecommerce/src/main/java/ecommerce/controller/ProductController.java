@@ -2,6 +2,7 @@ package ecommerce.controller;
 
 
 import ecommerce.models.Product;
+import ecommerce.models.ProductCategory;
 import ecommerce.models.ProductItem;
 import ecommerce.models.VariationOption;
 import ecommerce.services.ProductService;
@@ -154,8 +155,8 @@ public class ProductController {
         return productService.findAllProducts();
     }
 
-
-
-
-
+    @GetMapping("search/{name}")
+    public List<Product> getProductsByName(@PathVariable String name) {
+        return productService.findProductByName(name);
+    }
 }

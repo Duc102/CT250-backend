@@ -24,4 +24,7 @@ public class ProductCategoryService {
     public List<ProductCategoryDao> findChildrenOfCategory(Long id){
         return productCategoryRepository.selectChildrenOfCategory(id);
     }
+    public List<ProductCategory> findProductCategoryByName(String name) {
+        return productCategoryRepository.findByCategoryNameContaining(name);
+    }
 }

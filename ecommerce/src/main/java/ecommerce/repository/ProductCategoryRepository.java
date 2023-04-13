@@ -22,6 +22,8 @@ public interface ProductCategoryRepository extends JpaRepository <ProductCategor
             + "select id from cte"
             ,nativeQuery = true)
     List<Integer> selectFamilyTreeByCategoryId(Long id);
+
+    List<ProductCategory> findByCategoryNameContaining(String name);
 }
 
 

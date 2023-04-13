@@ -450,4 +450,6 @@ public class ProductService {
         }));
         return products;
     }
+    public  List<Product> findProductByName(String name) {
+        return productRepository.findByNameContaining(name);}
 }

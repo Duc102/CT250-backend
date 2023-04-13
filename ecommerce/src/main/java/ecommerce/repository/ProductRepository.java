@@ -13,4 +13,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query(value="select distinct pr from Product pr join fetch pr.productItems where pr.productCategory.id = :id")
     List<Product> selectProductsFetchItemByCategoryId(long id);
+
+    List<Product> findByNameContaining(String name);
+
 }
